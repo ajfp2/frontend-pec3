@@ -1,4 +1,4 @@
-## PEC 3- Typescript
+# PEC 3- Typescript
 
-# ajfp2@uoc.edu
-# Alfonso José Ferrando Puigcerver
+### Login: ajfp2@uoc.edu
+### Alumno: Alfonso José Ferrando Puigcerver
