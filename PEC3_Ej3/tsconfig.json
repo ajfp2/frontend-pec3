@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    /* Basic Options */
+    "target": "es2015", // Version en la que compilar Javascript.
+    "module": "commonjs", // El sistema de modulos que se usa al compilar. 
+    "outDir": "./dist", // Carpeta de salida para los ficheros TS compilados, se guardaran aquil los JS.
+    "rootDir": "./src", // Indicamos donde están nuestros archivos typescript a compilar.
+    "strict": true, // Le indica a typescript si es estricto o no a la hora de pasar errores, en este caso está estricto.
+    "incremental": true, //Indica a typescript que guarde información de compilaciones anteriores en un archivo en el disco controlado por el indicador tsBuildInfoFile.
+    "tsBuildInfoFile": "./buildcache", //Carpeta deonde almacenar información de compilación incremental, que permite una compilación más rápida.
+  }
+}
