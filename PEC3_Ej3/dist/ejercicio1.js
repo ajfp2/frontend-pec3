@@ -19,8 +19,8 @@ printArray(array); // 3,4,1
 array.unshift(8);
 printArray(array); // 8,3,4,1
 /** check if every number is greater than 3 */
-let everyisgreater = array.filter(it => it > 3);
-console.log(everyisgreater.length > 0); //false
+let everyisgreater = array.find(it => it > 3);
+console.log(!everyisgreater); //false
 /** check if every number is less than 10 */
 let everyisless = array.filter(it => it < 10);
 console.log(everyisless.length > 0); //true
