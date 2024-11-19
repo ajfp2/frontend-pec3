@@ -57,10 +57,6 @@ animals.push(new Dog('black'));
 for(let animal of animals){
     /***/
     animal.sound();
-    
-    // animal.iamacat();
-    // animal.iamadog();
-
 }
 /**  loop prints these lines
 MEOW
