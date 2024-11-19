@@ -1,0 +1,11 @@
+{
+  "name": "pec3_ej4",
+  "version": "1.0.0",
+  "description": "Eje 4- MVC",
+  "main": "app.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Alfonso J.",
+  "license": "ISC"
+}

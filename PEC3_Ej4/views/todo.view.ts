@@ -1,96 +1,150 @@
+import TodoController from '../controllers/todo.controller';
+import TodoModel from '../models/todo.model';
+
+
+interface DOMList {
+  clear(): void;
+  displayTodos(allTask: TodoModel[]): void;
+}
+
+
 /**
  * @class View
  *
- * Visual representation of the model.
+ * Visual representation of the view.
  */
-class TodoView {
-    constructor() {
-      this.app = this.getElement("#root");
-      this.form = this.createElement("form");
-      this.input = this.createElement("input");
-      this.input.type = "text";
-      this.input.placeholder = "Add todo";
-      this.input.name = "todo";
-      this.submitButton = this.createElement("button");
-      this.submitButton.textContent = "Submit";
-      this.form.append(this.input, this.submitButton);
-      this.title = this.createElement("h1");
-      this.title.textContent = "Todos";
-      this.todoList = this.createElement("ul", "todo-list");
-      this.app.append(this.title, this.form, this.todoList);
-  
-      this._temporaryTodoText = "";
-      this._initLocalListeners();
-    }
+
+
+export default class TodoView implements DOMList {
+
+	private app: HTMLElement;
+	private todoList: HTMLElement;
+	private form: HTMLElement;
+	private input: HTMLInputElement;
+	private submitButton: HTMLButtonElement;
+	private title: HTMLElement;
+
+	private todoListController: TodoController;
+
+	constructor(_todoListController: TodoController) {
+		this.todoListController = _todoListController;
+		this.app = this.getElement("#root");
+		this.form = this.createElement("form");
+		this.input = this.createInput("Añadir todo", "todo", "todo", "input");
+      	this.input.name = "todo";
+
+		this.submitButton = this.createButton("Añadir", "btnAdd");
+		this.form.append(this.input, this.submitButton);
+
+		this.title = this.createElement("h1", "titleID");
+		this.title.textContent = "Todos";
+		this.todoList = this.createElement("ul", "todo-list");
+		this.app.append(this.title, this.form, this.todoList);
+
+	//   this._temporaryTodoText = "";
+	//   this._initLocalListeners();
+
+		if (!this.todoList)
+		  throw new Error("Error- No se ha podido encontrar el elemento ul en el html.");
+	  }
   
     get _todoText() {
       return this.input.value;
     }
+
+	private getElement(selector): HTMLElement {
+		const element: HTMLElement = document.querySelector(selector);
+		return element;
+    }
+
+	private createElement(tag, id = "", className = ""): HTMLElement {
+		const element: HTMLElement = document.createElement(tag);
+		if (className) element.classList.add(className);
+		if (id) element.id = id;
+		return element;
+    }
+
+	private createInput(txt: string, id = "", className = "", type = ""): HTMLInputElement {
+        const inputBox = document.createElement("input") as HTMLInputElement;
+		if (className) inputBox.classList.add(className);
+		if (id) inputBox.id = id;
+		if (type) inputBox.type = type;
+		inputBox.placeholder = txt;
+        return inputBox;
+    }
+
+	private createButton(text, id = "", className = ""): HTMLButtonElement {
+        const btnButton = document.createElement("button") as HTMLButtonElement;
+		if (className) btnButton.classList.add(className);
+		if (id) btnButton.id = id;
+		btnButton.textContent = text;
+        return btnButton;
+    }
+
+	private createSpan(className, editable): HTMLSpanElement {
+		const span = document.createElement("span") as HTMLSpanElement;
+		if (className) span.classList.add(className);
+		span.contentEditable = editable;
+        return span;
+	}
+
+	clear(): void {
+        this.todoList.innerHTML = "";
+    }
+
+	// render(allTask: TodoModel[]): void {
+    //     this.clear();
+
+    //     allTask.forEach((task) => {
+    //         const li = this.displayTodos(task);
+    //         this.todoList.append(li);
+    //     });
+    // }
   
     _resetInput() {
       this.input.value = "";
     }
   
-    createElement(tag, className) {
-      const element = document.createElement(tag);
+    displayTodos(todos: TodoModel[]):void {
+		// Delete all nodes
+		this.clear();
   
-      if (className) element.classList.add(className);
+		// Show default message
+		if (todos.length === 0) {
+			const p = this.createElement("p");
+			p.textContent = "Nothing to do! Add a task?";
+			this.todoList.append(p);
+		} else {
+			// Create nodes
+			todos.forEach(todo => {
+			const li = this.createElement("li");
+			li.id = todo.id;
+	
+			const checkbox = this.createInput("", "", "", "checkbox");//(txt: string, id = "", className = "", type = "")
+			checkbox.checked = todo.complete;
+	
+			const span = this.createSpan("editable", true);
+	
+			if (todo.complete) {
+				const strike = this.createElement("s");
+				strike.textContent = todo.text;
+				span.append(strike);
+			} else {
+				span.textContent = todo.text;
+			}
+	
+			const deleteButton = this.createButton("Eliminar", "", "delete");
+			li.append(checkbox, span, deleteButton);
+	
+			// Append nodes
+			this.todoList.append(li);
+			});
+      	}
   
-      return element;
+		// Debugging
+		console.log(todos);
     }
-  
-    getElement(selector) {
-      const element = document.querySelector(selector);
-  
-      return element;
-    }
-  
-    displayTodos(todos) {
-      // Delete all nodes
-      while (this.todoList.firstChild) {
-        this.todoList.removeChild(this.todoList.firstChild);
-      }
-  
-      // Show default message
-      if (todos.length === 0) {
-        const p = this.createElement("p");
-        p.textContent = "Nothing to do! Add a task?";
-        this.todoList.append(p);
-      } else {
-        // Create nodes
-        todos.forEach(todo => {
-          const li = this.createElement("li");
-          li.id = todo.id;
-  
-          const checkbox = this.createElement("input");
-          checkbox.type = "checkbox";
-          checkbox.checked = todo.complete;
-  
-          const span = this.createElement("span");
-          span.contentEditable = true;
-          span.classList.add("editable");
-  
-          if (todo.complete) {
-            const strike = this.createElement("s");
-            strike.textContent = todo.text;
-            span.append(strike);
-          } else {
-            span.textContent = todo.text;
-          }
-  
-          const deleteButton = this.createElement("button", "delete");
-          deleteButton.textContent = "Delete";
-          li.append(checkbox, span, deleteButton);
-  
-          // Append nodes
-          this.todoList.append(li);
-        });
-      }
-  
-      // Debugging
-      console.log(todos);
-    }
-  
+  /*
     _initLocalListeners() {
       this.todoList.addEventListener("input", event => {
         if (event.target.className === "editable") {
@@ -99,6 +153,7 @@ class TodoView {
       });
     }
   
+	
     bindAddTodo(handler) {
       this.form.addEventListener("submit", event => {
         event.preventDefault();
@@ -135,10 +190,11 @@ class TodoView {
       this.todoList.addEventListener("change", event => {
         if (event.target.type === "checkbox") {
           const id = event.target.parentElement.id;
-  
+
           handler(id);
         }
       });
     }
-  }
+	  */
+}
   
