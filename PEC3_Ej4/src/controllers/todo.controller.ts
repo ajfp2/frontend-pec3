@@ -8,14 +8,14 @@ export default class TodoController {
     private _todoList: TodoService = new TodoService();
 
     constructor() {
-        this.loadTodo();
+
     }
 
     getTodoList(): TodoModel[] {
         return this._todoList.todos;
     }
 
-    addTodo(newTask: TodoModel): void {
+    addTodo(newTask: TodoModel): void {        
         this._todoList.addTodo(newTask);
     }
 
@@ -29,11 +29,6 @@ export default class TodoController {
 
     clearTodo(): void {
         this._todoList.clearTodos();
-    }
-
-    loadTodo(): void {
-        // this._todoList.load();
-        this._todoList;
     }
 
     saveTodo(): void {

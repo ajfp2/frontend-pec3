@@ -11,34 +11,26 @@ export default class TodoService {
     private _todos: TodoModel[] = [];
 
     constructor() {
-      const storedTasks: string | null = localStorage.getItem("todos");
+        const storedTasks: string|null = localStorage.getItem("todos");
         if (!storedTasks) return;
      
-        const parsedTaskList: {
-          _id: string;
-          _text: string;
-          _complete: boolean;
-        }[] = JSON.parse(storedTasks);
+        const parsedTaskList = JSON.parse(storedTasks);
 
-        parsedTaskList.forEach((taskObj) => {
+        parsedTaskList.forEach((taskObj: TodoModel) => {
           const newTaskList = new TodoModel(
-            taskObj._id,
-            taskObj._text,
-            taskObj._complete
+            taskObj.id,
+            taskObj.text,
+            taskObj.complete
           );
-     
+
           this.addTodo(newTaskList);
         });
     }
 
     get todos(): TodoModel[] {
         return this._todos;
-      }
-  
-    //bindTodoListChanged(callback) {
-    //   this.onTodoListChanged = callback;
-    //}
-  
+    }
+    
     _commit() {
     //   this.onTodoListChanged(todos);
       localStorage.setItem("todos", JSON.stringify(this._todos));
