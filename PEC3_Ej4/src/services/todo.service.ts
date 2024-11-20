@@ -35,9 +35,9 @@ export default class TodoService {
         return this._todos;
       }
   
-    bindTodoListChanged(callback) {
+    //bindTodoListChanged(callback) {
     //   this.onTodoListChanged = callback;
-    }
+    //}
   
     _commit() {
     //   this.onTodoListChanged(todos);
@@ -54,7 +54,7 @@ export default class TodoService {
         this._commit();
     }
   
-    editTodo(id, updatedText) {
+    editTodo(id: string, updatedText: string) {
         if (updatedText.trim() === "") return;
         const taskToUpdate = this._todos.find((task) => task.id === id);
         if (!taskToUpdate) return;
@@ -63,12 +63,12 @@ export default class TodoService {
         this._commit();
     }
   
-    deleteTodo(_id) {
+    deleteTodo(_id: string) {
         this._todos = this.todos.filter(({ id }) => id !== _id);  
         this._commit();
     }
   
-    toggleTodo(_id) {
+    toggleTodo(_id: string) {
         const taskToUpdateChange = this._todos.find((task) => task.id === _id);
         if (!taskToUpdateChange) return;
         taskToUpdateChange.complete = !taskToUpdateChange.complete;

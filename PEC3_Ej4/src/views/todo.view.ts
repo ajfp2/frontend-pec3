@@ -52,12 +52,12 @@ export default class TodoView implements DOMList {
       return this.input.value;
     }
 
-	private getElement(selector): HTMLElement {
-		const element: HTMLElement = document.querySelector(selector);
+	private getElement(selector: string): HTMLElement {
+		const element: HTMLElement = document.querySelector(selector) as HTMLElement;
 		return element;
     }
 
-	private createElement(tag, id = "", className = ""): HTMLElement {
+	private createElement(tag: string, id = "", className = ""): HTMLElement {
 		const element: HTMLElement = document.createElement(tag);
 		if (className) element.classList.add(className);
 		if (id) element.id = id;
@@ -73,7 +73,7 @@ export default class TodoView implements DOMList {
         return inputBox;
     }
 
-	private createButton(text, id = "", className = ""): HTMLButtonElement {
+	private createButton(text: string, id = "", className = ""): HTMLButtonElement {
         const btnButton = document.createElement("button") as HTMLButtonElement;
 		if (className) btnButton.classList.add(className);
 		if (id) btnButton.id = id;
@@ -81,7 +81,7 @@ export default class TodoView implements DOMList {
         return btnButton;
     }
 
-	private createSpan(className, editable): HTMLSpanElement {
+	private createSpan(className: string, editable: string): HTMLSpanElement {
 		const span = document.createElement("span") as HTMLSpanElement;
 		if (className) span.classList.add(className);
 		span.contentEditable = editable;
@@ -123,7 +123,7 @@ export default class TodoView implements DOMList {
 			const checkbox = this.createInput("", "", "", "checkbox");//(txt: string, id = "", className = "", type = "")
 			checkbox.checked = todo.complete;
 	
-			const span = this.createSpan("editable", true);
+			const span = this.createSpan("editable", "true");
 	
 			if (todo.complete) {
 				const strike = this.createElement("s");

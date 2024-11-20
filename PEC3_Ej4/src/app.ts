@@ -10,6 +10,7 @@ import TodoView from "./views/todo.view";
 // https://learning.oreilly.com/videos/understanding-typescript/9781789951905/9781789951905-video11_1/
 
 // const app = new TodoController(new TodoService(), new TodoView());
+console.log("TS POR AQUII");
 
 const taskListController = new TodoController();
 const taskListView = new TodoView(taskListController);
