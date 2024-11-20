@@ -15,6 +15,8 @@ Al convertir a string el 2 en la constante a da error porque ya no puede realiza
 
 ![Captura de pantalla de los tipos de datos que puede inferir typescript.](eje2_b.png)
 
+Se infieros estos tipos de datos por las declaraciones que tienen, por ejemplo la constante `a` al  ser inicializada con un numero typescript asume que sera de tipo number.
+
 2. ¿Por qué se dispara cada uno de los errores del fichero code3.ts?
 
 - Error TS2588 : Cannot assign to 'i' because it is a constant.ts(2588)': es que no se puede cambiar el valor de 'i' porque se ha definido como una constante.
